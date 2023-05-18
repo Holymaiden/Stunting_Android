@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="82dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/holder_bg"
+    >
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/plus1" />
+
+    <TextView
+        android:id="@+id/textNama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:text="Nama"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView16"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textUmur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:text="Umur : 15th"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textNama"
+        app:layout_constraintTop_toBottomOf="@+id/textNama" />
+
+    <TextView
+        android:id="@+id/textTinggi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="TB : 170 cm"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textUmur"
+        app:layout_constraintStart_toEndOf="@+id/textUmur"
+        app:layout_constraintTop_toTopOf="@+id/textUmur" />
+
+    <TextView
+        android:id="@+id/textBerat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BB : 50 Kg"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textTinggi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textTinggi"
+        app:layout_constraintTop_toTopOf="@+id/textTinggi" />
+
+    <ImageView
+        android:id="@+id/imageStunting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textNama"
+        app:layout_constraintEnd_toStartOf="@+id/textStunting"
+        app:layout_constraintTop_toTopOf="@+id/textNama"
+        app:srcCompat="@drawable/ic_check" />
+
+    <TextView
+        android:id="@+id/textStunting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Stunting"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageStunting"
+        app:layout_constraintEnd_toStartOf="@+id/btn_trash"
+        app:layout_constraintTop_toTopOf="@+id/imageStunting" />
+
+    <ImageView
+        android:id="@+id/btn_trash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textStunting"
+        app:layout_constraintEnd_toEndOf="@+id/textBerat"
+        app:layout_constraintTop_toTopOf="@+id/textStunting"
+        app:srcCompat="@drawable/delete_btn" />
+</androidx.constraintlayout.widget.ConstraintLayout>
