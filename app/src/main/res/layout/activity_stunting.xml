@@ -73,7 +73,7 @@
             android:layout_marginEnd="24dp"
             android:background="@drawable/search_main"
             android:ems="10"
-            android:hint="Umur"
+            android:hint="Umur (Bulan)"
             android:inputType="number"
             android:padding="16dp"
             android:textColor="@color/primary"

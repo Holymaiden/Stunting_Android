@@ -1,5 +1,6 @@
 package com.example.stunting.adapter
 
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -70,7 +71,7 @@ class StuntingAdapter(private var itemCount: Int, private var listData: List<Stu
                 val btnCancel = viewDialog.findViewById<Button>(R.id.btn_confirm2)
                 btnOk.setOnClickListener {
                     dialog.dismiss()
-                    val presenter = StuntingPresenterImpl(view, apiService)
+                    val presenter = StuntingPresenterImpl(view, apiService, viewDialog.context)
                     presenter.deleteStunting(data.id)
                 }
                 btnCancel.setOnClickListener {

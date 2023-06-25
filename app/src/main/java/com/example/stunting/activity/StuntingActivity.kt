@@ -1,8 +1,10 @@
 package com.example.stunting.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.stunting.R
@@ -21,18 +23,42 @@ class StuntingActivity: AppCompatActivity(), StuntingView{
 
             // membuat instance dari SessionManager
             sessionManager = SessionManager(this)
-            presenter = StuntingPresenterImpl(this, Retrofit.getInstance())
+            presenter = StuntingPresenterImpl(this, Retrofit.getInstance(), this)
 
             val btnBack = findViewById<android.widget.ImageView>(R.id.btnBack)
             val btnPeriksa = findViewById<Button>(R.id.periksa)
-            val editNama = findViewById<android.widget.EditText>(R.id.editNama)
-            val editUmur = findViewById<android.widget.EditText>(R.id.editUmur)
-            val editBerat = findViewById<android.widget.EditText>(R.id.editBerat)
-            val editTinggi = findViewById<android.widget.EditText>(R.id.editTinggi)
+            val editNama = findViewById<EditText>(R.id.editNama)
+            val editUmur = findViewById<EditText>(R.id.editUmur)
+            val editBerat = findViewById<EditText>(R.id.editBerat)
+            val editTinggi = findViewById<EditText>(R.id.editTinggi)
+
+            // EditUmur max number 1-60
+            editUmur.addTextChangedListener(object : android.text.TextWatcher {
+                @SuppressLint("SetTextI18n")
+                override fun afterTextChanged(s: android.text.Editable?) {
+                    val input = s.toString()
+                    if (!input.isNullOrEmpty()) {
+                        val number = input.toInt()
+                        if (number > 60 ) {
+                            editUmur.setText("60")
+                        }
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    // Do Nothing
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // Do Nothing
+                }
+            })
 
             btnBack.setOnClickListener {
                 super.onBackPressed()
             }
+
+
 
             btnPeriksa.setOnClickListener {
                 val editNama = editNama.text.toString()
@@ -57,7 +83,7 @@ class StuntingActivity: AppCompatActivity(), StuntingView{
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             val btnOk = view.findViewById<Button>(R.id.btn_confirm)
             val text = view.findViewById<android.widget.TextView>(R.id.text_dialog)
-            text.text = "Stunting berhasil ditambahkan"
+            text.text = msg
             btnOk.setOnClickListener {
                 dialog.dismiss()
                 val intent = Intent(this, MainActivity::class.java)
@@ -75,7 +101,7 @@ class StuntingActivity: AppCompatActivity(), StuntingView{
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             val btnOk = view.findViewById<Button>(R.id.btn_confirm)
             val text = view.findViewById<android.widget.TextView>(R.id.text_dialog)
-            text.text = "Stunting gagal ditambahkan"
+            text.text = msg
             btnOk.setOnClickListener {
                 dialog.dismiss()
             }

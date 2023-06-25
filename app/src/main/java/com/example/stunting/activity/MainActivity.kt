@@ -3,6 +3,7 @@ package com.example.stunting.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.stunting.network.Retrofit
 import com.example.stunting.response.Stunting
 import com.example.stunting.session.SessionManager
+import com.example.stunting.network.NetworkChangeReceiver
 
 class MainActivity : AppCompatActivity(), StuntingView {
     private lateinit var recyclerView: RecyclerView
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity(), StuntingView {
 
         // membuat instance dari SessionManager
         sessionManager = SessionManager(this)
-        presenter = StuntingPresenterImpl(this, Retrofit.getInstance())
+        presenter = StuntingPresenterImpl(this, Retrofit.getInstance(), this)
 
         val btnProfile = findViewById<LinearLayout>(R.id.ll_profile)
         val btnStunting = findViewById<FloatingActionButton>(R.id.btnStunting)
@@ -52,16 +54,25 @@ class MainActivity : AppCompatActivity(), StuntingView {
 
         presenter.getStunting(sessionManager.getId(), limit, search)
 
+        var isLoading = false
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (!recyclerView.canScrollVertically(2)) {
+                val layoutManager = recyclerView.layoutManager
+                val visibleItemCount = layoutManager?.childCount ?: 0
+                val totalItemCount = layoutManager?.itemCount ?: 0
+                val firstVisibleItemPosition = (layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition() ?: 0
+
+                val loadMoreThreshold = 6 // ambil jumlah item threshold yang ingin Anda gunakan
+
+                if (!isLoading && visibleItemCount + firstVisibleItemPosition + loadMoreThreshold >= totalItemCount) {
+                    // Jika tidak ada proses loading dan pengguna sudah mendekati akhir daftar
+
+                    isLoading = true // set isLoading menjadi true untuk menghindari multiple loading
+
                     limit += 6
                     presenter.getStunting(sessionManager.getId(), limit, search)
-                    itemCount += 6 //load 10 more items
-                    adapter.updateItemCount(itemCount)
-
                 }
             }
         })
@@ -81,10 +92,16 @@ class MainActivity : AppCompatActivity(), StuntingView {
             }
             false
         }
+
+        // Menginisialisasi NetworkChangeReceiver
+        val networkChangeReceiver = NetworkChangeReceiver()
+        // Mendaftarkan NetworkChangeReceiver ke sistem
+        networkChangeReceiver.onReceive(this, Intent())
+
     }
 
     override fun onSuccess(msg: String) {
-
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(msg: String) {
@@ -92,8 +109,13 @@ class MainActivity : AppCompatActivity(), StuntingView {
     }
 
     override fun SendData(data: List<Stunting>) {
-        adapter = StuntingAdapter(itemCount, data, this, Retrofit.getInstance())
-        this.recyclerView.adapter = adapter
+        try{
+            adapter = StuntingAdapter(itemCount, data, this, Retrofit.getInstance())
+            this.recyclerView.adapter = adapter
+        }catch (e: Exception){
+            Log.d("Error", e.toString())
+        }
+
     }
 
     override fun onDelete(){
