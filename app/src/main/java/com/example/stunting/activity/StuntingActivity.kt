@@ -8,7 +8,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.stunting.R
-import com.example.stunting.network.Retrofit
 import com.example.stunting.presenter.StuntingPresenterImpl
 import com.example.stunting.session.SessionManager
 import com.example.stunting.view.StuntingView
@@ -23,7 +22,7 @@ class StuntingActivity: AppCompatActivity(), StuntingView{
 
             // membuat instance dari SessionManager
             sessionManager = SessionManager(this)
-            presenter = StuntingPresenterImpl(this, Retrofit.getInstance(), this)
+            presenter = StuntingPresenterImpl(this, this)
 
             val btnBack = findViewById<android.widget.ImageView>(R.id.btnBack)
             val btnPeriksa = findViewById<Button>(R.id.periksa)
@@ -67,7 +66,7 @@ class StuntingActivity: AppCompatActivity(), StuntingView{
                 val editTinggi = editTinggi.text.toString()
 
                 if (editNama.isNotEmpty() && editUmur.isNotEmpty() && editBerat.isNotEmpty() && editTinggi.isNotEmpty()){
-                    presenter.createStunting(sessionManager.getId(),editNama, editUmur.toInt(), editTinggi.toFloat(), editBerat.toFloat(), "Ya")
+                    presenter.createStunting(sessionManager.getId(),editNama, editUmur.toInt(), editTinggi.toFloat(), editBerat.toFloat(), "")
                 }else{
                     android.widget.Toast.makeText(this, "Please fill all the fields", android.widget.Toast.LENGTH_SHORT).show()
                 }

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import com.example.stunting.network.Retrofit
 import com.example.stunting.presenter.ProfilePresenterImpl
 import com.example.stunting.session.SessionManager
 import com.example.stunting.view.ProfileView
@@ -22,7 +21,7 @@ class ProfileEditActivity: AppCompatActivity(), ProfileView {
 
         // membuat instance dari SessionManager
         sessionManager = SessionManager(this)
-        presenter = ProfilePresenterImpl(this, Retrofit.getInstance(), sessionManager)
+        presenter = ProfilePresenterImpl(this,  sessionManager)
 
         val btnBack = findViewById<android.widget.ImageView>(R.id.btnBack)
         val btnSave = findViewById<android.widget.Button>(R.id.btnSave)

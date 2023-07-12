@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.stunting.network.Retrofit
 import com.example.stunting.session.SessionManager
 
 class SignInActivity : AppCompatActivity(), LoginView {
@@ -22,7 +21,7 @@ class SignInActivity : AppCompatActivity(), LoginView {
 
         // membuat instance dari SessionManager
         sessionManager = SessionManager(this)
-        presenter = LoginPresenterImpl(this, Retrofit.getInstance(), sessionManager)
+        presenter = LoginPresenterImpl(this, sessionManager)
 
         // cek apakah user sudah login
         if (sessionManager.isLoggedIn()){
@@ -63,7 +62,7 @@ class SignInActivity : AppCompatActivity(), LoginView {
         progressBar.visibility = android.view.View.GONE
     }
 
-    override fun onSuccessLogin(msg: com.example.stunting.response.User) {
+    override fun onSuccessLogin(msg: Any) {
         val view = View.inflate(this, R.layout.dialog_view, null)
         val builder = AlertDialog.Builder(this)
         builder.setView(view)

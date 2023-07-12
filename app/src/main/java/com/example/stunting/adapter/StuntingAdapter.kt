@@ -15,7 +15,7 @@ import com.example.stunting.response.Stunting
 import com.example.stunting.view.StuntingView
 import retrofit2.Retrofit
 
-class StuntingAdapter(private var itemCount: Int, private var listData: List<Stunting>, private val view: StuntingView, private val apiService: Retrofit): RecyclerView.Adapter<StuntingAdapter.MyViewHolder>() {
+class StuntingAdapter(private var itemCount: Int, private var listData: List<Stunting>, private val view: StuntingView): RecyclerView.Adapter<StuntingAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.holder_view, parent, false)
         return MyViewHolder(view)
@@ -23,7 +23,7 @@ class StuntingAdapter(private var itemCount: Int, private var listData: List<Stu
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = listData[position]
-        holder.bind(data, view, apiService)
+        holder.bind(data, view)
     }
 
     override fun getItemCount(): Int {
@@ -43,7 +43,7 @@ class StuntingAdapter(private var itemCount: Int, private var listData: List<Stu
         private val gambar: ImageView = itemView.findViewById(R.id.imageStunting)
         private val btnHapus: ImageView = itemView.findViewById(R.id.btn_trash)
 
-        fun bind(data: Stunting, view: StuntingView, apiService: Retrofit) {
+        fun bind(data: Stunting, view: StuntingView) {
             nama.text = data.username
             umur.text = "Umur : "+data.umur.toString()
             berat.text = "BB : "+data.berat_badan.toString()
@@ -71,7 +71,7 @@ class StuntingAdapter(private var itemCount: Int, private var listData: List<Stu
                 val btnCancel = viewDialog.findViewById<Button>(R.id.btn_confirm2)
                 btnOk.setOnClickListener {
                     dialog.dismiss()
-                    val presenter = StuntingPresenterImpl(view, apiService, viewDialog.context)
+                    val presenter = StuntingPresenterImpl(view, viewDialog.context)
                     presenter.deleteStunting(data.id)
                 }
                 btnCancel.setOnClickListener {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import com.example.stunting.R
 import com.example.stunting.SqliteHelper.DBHelper
+
 class IntroActivity : AppCompatActivity() {
     private lateinit var dbHelper: DBHelper
 

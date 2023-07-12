@@ -14,10 +14,8 @@ import com.example.stunting.adapter.StuntingAdapter
 import com.example.stunting.presenter.StuntingPresenterImpl
 import com.example.stunting.view.StuntingView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.example.stunting.network.Retrofit
 import com.example.stunting.response.Stunting
 import com.example.stunting.session.SessionManager
-import com.example.stunting.network.NetworkChangeReceiver
 
 class MainActivity : AppCompatActivity(), StuntingView {
     private lateinit var recyclerView: RecyclerView
@@ -35,7 +33,7 @@ class MainActivity : AppCompatActivity(), StuntingView {
 
         // membuat instance dari SessionManager
         sessionManager = SessionManager(this)
-        presenter = StuntingPresenterImpl(this, Retrofit.getInstance(), this)
+        presenter = StuntingPresenterImpl(this, this)
 
         val btnProfile = findViewById<LinearLayout>(R.id.ll_profile)
         val btnStunting = findViewById<FloatingActionButton>(R.id.btnStunting)
@@ -92,12 +90,6 @@ class MainActivity : AppCompatActivity(), StuntingView {
             }
             false
         }
-
-        // Menginisialisasi NetworkChangeReceiver
-        val networkChangeReceiver = NetworkChangeReceiver()
-        // Mendaftarkan NetworkChangeReceiver ke sistem
-        networkChangeReceiver.onReceive(this, Intent())
-
     }
 
     override fun onSuccess(msg: String) {
@@ -110,7 +102,7 @@ class MainActivity : AppCompatActivity(), StuntingView {
 
     override fun SendData(data: List<Stunting>) {
         try{
-            adapter = StuntingAdapter(itemCount, data, this, Retrofit.getInstance())
+            adapter = StuntingAdapter(itemCount, data, this)
             this.recyclerView.adapter = adapter
         }catch (e: Exception){
             Log.d("Error", e.toString())

@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.stunting.network.Retrofit
 import com.example.stunting.session.SessionManager
 
 class SignUpActivity : AppCompatActivity(), LoginView {
@@ -23,7 +22,7 @@ class SignUpActivity : AppCompatActivity(), LoginView {
 
         // membuat instance dari SessionManager
         sessionManager = SessionManager(this)
-        presenter = LoginPresenterImpl(this, Retrofit.getInstance(), sessionManager)
+        presenter = LoginPresenterImpl(this, sessionManager)
 
         val btnSignIn = findViewById<Button>(R.id.btnLogin)
         val editUsername = findViewById<EditText>(R.id.editUsername)
@@ -95,7 +94,7 @@ class SignUpActivity : AppCompatActivity(), LoginView {
         }
     }
 
-    override fun onSuccessLogin(msg: com.example.stunting.response.User) {
+    override fun onSuccessLogin(msg: Any) {
         // TODO("Not yet implemented")
     }
 }
