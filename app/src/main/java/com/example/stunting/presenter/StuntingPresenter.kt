@@ -21,9 +21,9 @@ class StuntingPresenterImpl(private val view: StuntingView, private val context:
 
                 val result = db.addData(user_id, username, umur, tinggi_badan, berat_badan, hasil)
                 if (result) {
-                    view.onSuccess("Stunting berhasil dibuat di local")
+                    view.onSuccess("Stunting berhasil dibuat")
                 } else {
-                    view.onError("Stunting gagal dibuat di local")
+                    view.onError("Stunting gagal dibuat")
                 }
         }
 
@@ -32,9 +32,9 @@ class StuntingPresenterImpl(private val view: StuntingView, private val context:
                 val result = db.getData(user_id, limit, search)
                 if (result.isNotEmpty()) {
                     view.SendData(result)
-//                    view.onSuccess("Stunting berhasil diambil dari local")
                 } else {
-                    view.onError("Stunting gagal diambil dari local")
+                    view.SendData(result)
+                    view.onError("Data tidak ditemukan")
                 }
         }
 

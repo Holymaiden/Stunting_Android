@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity(), StuntingView {
 
     override fun SendData(data: List<Stunting>) {
         try{
+            itemCount = data.size
             adapter = StuntingAdapter(itemCount, data, this)
             this.recyclerView.adapter = adapter
         }catch (e: Exception){
