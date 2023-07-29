@@ -1,6 +1,7 @@
 package com.example.stunting.helper
 
 import android.content.Context
+import android.util.Log
 import com.example.stunting.SqliteHelper.DBHelper
 import com.example.stunting.response.Stunting
 import java.lang.Math.PI
@@ -122,26 +123,35 @@ class naivebayes(umur_: Int, tinggi_: Float, berat_:Float,context: Context) {
             Data2(6.0, 65.0, 7.2, "Ya"),
             Data2(8.0, 68.0, 7.8, "Tidak"),
             Data2(10.0, 71.0, 8.5, "Ya"),
-            Data2(12.0, 74.0, 9.1, "Ya")
+            Data2(12.0, 74.0, 9.1, "Ya"),
+            Data2(14.0, 77.0, 9.8, "Tidak"),
+            Data2(16.0, 80.0, 10.5, "Ya"),
+            Data2(18.0, 83.0, 11.2, "Ya"),
+            Data2(20.0, 86.0, 11.9, "Ya"),
+            Data2(22.0, 89.0, 12.6, "Tidak"),
+            Data2(24.0, 92.0, 13.3, "Ya"),
+            Data2(26.0, 95.0, 14.0, "Ya"),
+            Data2(28.0, 98.0, 14.7, "Ya"),
+            Data2(30.0, 101.0, 15.4, "Ya"),
+            Data2(32.0, 104.0, 16.1, "Tidak"),
+            Data2(34.0, 107.0, 16.8, "Ya"),
+            Data2(36.0, 110.0, 17.5, "Ya"),
+            Data2(38.0, 113.0, 18.2, "Ya"),
+            Data2(40.0, 116.0, 18.9, "Ya"),
+            Data2(42.0, 119.0, 19.6, "Ya"),
+            Data2(44.0, 122.0, 20.3, "Tidak"),
+            Data2(46.0, 125.0, 21.0, "Ya"),
+            Data2(48.0, 128.0, 21.7, "Ya"),
+            Data2(49.0, 90.0, 12.5, "Ya"),
+            Data2(15.0, 90.0, 7.7, "Ya")
         )
     }
 
     fun proses(): String {
         val dataLatih = this.datalatih
         val dataUji = this.dataUji
-        var persentDataLatih = 20
-        var persentDataUji = 100
 
-        val dataLatihBaru = dataLatih.subList(
-            0,
-            ((persentDataLatih / 100.0) * dataLatih.size).roundToInt()
-        )
-        val dataUjiBaru = dataUji.subList(
-            0,
-            ((persentDataUji / 100.0) * dataUji.size).roundToInt()
-        )
-
-        val gabungData: List<Data2> = dataLatihBaru + dataUjiBaru
+        val gabungData: List<Data2> = dataLatih + dataUji
 
         val jumlahData = gabungData.size
         var jumlahDataTidak = 0
@@ -204,39 +214,27 @@ class naivebayes(umur_: Int, tinggi_: Float, berat_:Float,context: Context) {
         standarDeviasiYa.berat = kotlin.math.sqrt(standarDeviasiYa.berat / (jumlahDataYa - 1))
 
         val probabilitasTidak =
-            (1 / sqrt(2 * PI * standarDeviasiTidak.umur)) *
-                    kotlin.math.exp(
-                        -pow(umur - meanTidak.umur, 2.0) /
-                                (2 * pow(standarDeviasiTidak.umur, 2.0))
-                    ) *
-                    (1 / sqrt(2 * PI * standarDeviasiTidak.tinggi)) *
-                    exp(
-                        -pow(tinggi - meanTidak.tinggi, 2.0) /
-                                (2 * pow(standarDeviasiTidak.tinggi, 2.0))
-                    ) *
-                    (1 / kotlin.math.sqrt(2 * PI * standarDeviasiTidak.berat)) *
-                    exp(
-                        -pow(berat - meanTidak.berat, 2.0) /
-                                (2 * pow(standarDeviasiTidak.berat, 2.0))
-                    ) *
+                    (1 / sqrt(2 * PI) * standarDeviasiTidak.umur) *
+                            kotlin.math.exp(pow(-(umur - meanTidak.umur), 2.0) /
+                                    (2 * pow(standarDeviasiTidak.umur, 2.0))) *
+                    (1 / sqrt(2 * PI) * standarDeviasiTidak.tinggi) *
+                            kotlin.math.exp(pow(-(tinggi - meanTidak.tinggi), 2.0) /
+                                    (2 * pow(standarDeviasiTidak.tinggi, 2.0))) *
+                    (1 / sqrt(2 * PI) * standarDeviasiTidak.berat) *
+                            kotlin.math.exp(pow(-(berat - meanTidak.berat), 2.0) /
+                                    (2 * pow(standarDeviasiTidak.berat, 2.0))) *
                     probabilitasPriorTidak
 
         val probabilitasYa =
-            (1 / sqrt(2 * PI * standarDeviasiYa.umur)) *
-                    kotlin.math.exp(
-                        -pow(umur - meanYa.umur, 2.0) /
-                                (2 * pow(standarDeviasiYa.umur, 2.0))
-                    ) *
-                    (1 / sqrt(2 * PI * standarDeviasiYa.tinggi)) *
-                    exp(
-                        -pow(tinggi - meanYa.tinggi, 2.0) /
-                                (2 * pow(standarDeviasiYa.tinggi, 2.0))
-                    ) *
-                    (1 / sqrt(2 * PI * standarDeviasiYa.berat)) *
-                    exp(
-                        -pow(berat - meanYa.berat, 2.0) /
-                                (2 * pow(standarDeviasiYa.berat, 2.0))
-                    ) *
+                    (1 / sqrt(2 * PI) * standarDeviasiYa.umur) *
+                            kotlin.math.exp(pow(-(umur - meanYa.umur), 2.0) /
+                                    (2 * pow(standarDeviasiYa.umur, 2.0))) *
+                    (1 / sqrt(2 * PI) * standarDeviasiYa.tinggi) *
+                            kotlin.math.exp(pow(-(tinggi - meanYa.tinggi), 2.0) /
+                                    (2 * pow(standarDeviasiYa.tinggi, 2.0))) *
+                    (1 / sqrt(2 * PI) * standarDeviasiYa.berat) *
+                            kotlin.math.exp(pow(-(berat - meanYa.berat), 2.0) /
+                                    (2 * pow(standarDeviasiYa.berat, 2.0))) *
                     probabilitasPriorYa
 
         val hasil = if (probabilitasTidak > probabilitasYa) "Tidak" else "Ya"
